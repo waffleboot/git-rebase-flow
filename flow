@@ -1,0 +1,81 @@
+rm -rf /Users/yangand/git_test/rebase
+cd /Users/yangand/git_test; git init rebase; cd /Users/yangand/git_test/rebase
+
+#########################
+
+cat > 1.txt <<EOF
+1
+EOF
+git add 1.txt; git commit -m "1.txt was created in 'master' branch"
+
+cat > 1.txt <<EOF
+1
+2
+
+EOF
+git commit -a -m "2 was added to 'master' branch"
+
+git log --oneline --reverse
+
+#########################
+
+git checkout -b feature
+
+cat > 1.txt <<EOF
+1
+2
+
+3
+EOF
+git commit -a -m "3 was added to 'feature' branch"
+
+cat > 1.txt <<EOF
+1
+2
+
+3
+4
+EOF
+git commit -a -m "4 was added to 'feature branch'"
+
+git log --oneline --reverse
+
+#########################
+
+git checkout master
+
+cat > 1.txt <<EOF
+11
+2
+
+EOF
+git commit -a -m "11 was added to 'master' branch"
+
+cat > 1.txt <<EOF
+11
+22
+
+EOF
+git commit -a -m "22 was added to 'master' branch"
+
+git log --oneline --reverse
+
+###############
+
+
+
+
+
+
+
+
+
+
+
+git checkout feature
+git checkout -b feature-merge
+git rebase -q master
+base=`git merge-base feature-merge master`
+git rebase -i $base
+git checkout master
+git merge feature-merge
